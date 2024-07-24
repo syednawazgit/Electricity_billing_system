@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Billing System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Add your CSS styling here */
+        body {
+            background-image: url('{{ url_for('static', filename='curr.jpg') }}');
+            background-size: cover; /* Cover the entire screen */
+            background-position: center; /* Center the image */
+            background-attachment: fixed; /* Fix the background image */
+            font-family: Arial, sans-serif; /* Optional: set a font for the page */
+            color: #333; /* Optional: set text color */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.8); /* White background with 80% opacity */
+            color: black; /* Black text color for contrast */
+            padding: 20px;
+            border-radius: 8px; /* Rounded corners for the container */
+            margin-top: 5cm; /* Margin from the top */
+            margin-bottom: 2cm; /* Margin from the bottom */
+        }
+
+        .form-container {
+            margin-bottom: 40px; /* Gap between the form and the output bill container */
+        }
+
+        .result-container {
+            width: 80%; /* Same width as the input container */
+            margin: auto; /* Center the result container */
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque white background for result */
+            padding: 20px;
+            border-radius: 8px; /* Rounded corners for the result container */
+            border: 2px solid black; /* Dark black border with increased thickness */
+            margin-top: 2cm; /* Margin to separate it from the form */
+            margin-bottom: 2cm; /* Margin from the bottom */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black; /* Dark black border */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold; /* Make the label text bold */
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 22px); /* Full width minus padding and border */
+            padding: 10px;
+            border: 2px solid black; /* Dark black border with increased thickness */
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green background for the button */
+            color: white; /* White text color */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Electricity Billing System</h1>
+            <form action="/generate_bill" method="post">
+                <label for="customer_id">Customer ID:</label>
+                <input type="text" id="customer_id" name="customer_id" required>
+                <label for="units_consumed">Units Consumed:</label>
+                <input type="number" id="units_consumed" name="units_consumed" required>
+                <button type="submit">Generate Bill</button>
+            </form>
+        </div>
+    </div>
+
+    {% if bill %}
+    <div class="result-container">
+        <h2>Bill Generated Successfully</h2>
+        <table>
+            <tr>
+                <th>Bill ID</th>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Units Consumed</th>
+                <th>Amount</th>
+            </tr>
+            <tr>
+                <td>{{ bill[0] }}</td> <!-- Bill ID -->
+                <td>{{ bill[1] }}</td> <!-- Customer ID -->
+                <td>{{ bill[2] }}</td> <!-- Customer Name -->
+                <td>{{ bill[3] }}</td> <!-- Units Consumed -->
+                <td>{{ bill[4] }}</td> <!-- Amount -->
+            </tr>
+        </table>
+    </div>
+    {% else %}
+    <div class="result-container">
+        <p>No bill has been generated yet.</p>
+    </div>
+    {% endif %}
+</body>
+</html>
